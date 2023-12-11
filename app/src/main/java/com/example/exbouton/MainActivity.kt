@@ -4,13 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.exbouton.ui.theme.ExBoutonTheme
+import com.google.android.engage.common.datamodel.Image
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,14 +28,34 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Preview
 @Composable
+@Preview
+
 fun DiceRollerApp() {
-    DiceWithButtonAndImage()
+    DiceWithButtonAndImage(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center))
 }
 
 @Composable
 fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
+    var result by remember { mutableStateof(1) }
+    val imageResource = when (result){
+        1-> R.drawable.dice1
+        2-> R.drawable.dice2
+        3-> R.drawable.dice3
+        4-> R.drawable.dice4
+        5-> R.drawable.dice5
+        else-> R.drawable.dice6
+
+    }
+    Column (
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(painter = painterResource(id = imageResource), contentDescription = result.toString())
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = { /*TODO*/ }) {
+            Text(stringResource(R.string.roll))
+        }
+    }
 
 }
